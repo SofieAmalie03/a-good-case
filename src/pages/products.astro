@@ -1,0 +1,119 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProductCard from "../components/ProductCard.astro";
+
+const products = [
+  {
+    id: "aben-birch",
+    title: "ÅBEN - BIRCH - 4,8%",
+    price: "Fra 46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80",
+    badge1: "6 stk.",
+    badge2: "SPAR 71 DKK",
+    badge3: "GLUTENFRI"
+  },
+  {
+    id: "apex-death-grip-ipa",
+    title: "APEX - DEATH GRIP IPA - 7,7%",
+    price: "Fra 33,16 DKK",
+    oldPrice: "45,00 DKK",
+    image: "https://images.unsplash.com/photo-1584225064785-c62a8b43d148?auto=format&fit=crop&w=900&q=80",
+    badge1: "6 stk.",
+    badge2: "SPAR 71 DKK",
+    badge3: "WCIPA"
+  },
+  {
+    id: "browar-stu-mostow",
+    title: "BROWAR STU MOSTOW - 6,9%",
+    price: "Fra 53,16 DKK",
+    oldPrice: "65,00 DKK",
+    image: "https://images.unsplash.com/photo-1563379091339-03246963d29a?auto=format&fit=crop&w=900&q=80",
+    badge1: "6 stk.",
+    badge2: "SPAR 71 DKK",
+    badge3: "NEW ENGLAND IPA"
+  },
+  {
+    id: "brewskeeters-ghost",
+    title: "BREWSKEETERS X GHOST BREWING - 6,5%",
+    price: "Fra 46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1571767454098-246b94fbcf70?auto=format&fit=crop&w=900&q=80",
+    badge1: "6 stk.",
+    badge2: "SPAR 71 DKK",
+    badge3: "WEST COAST IPA"
+  },
+  {
+    id: "browar-1",
+    title: "BROWAR STU MOSTOW - 7,3%",
+    price: "Fra 46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=900&q=80",
+    badge1: "6 stk.",
+    badge2: "SPAR 71 DKK",
+    badge3: "WCIPA"
+  },
+  {
+    id: "browar-2",
+    title: "BROWAR STU MOSTOW - 7,3%",
+    price: "Fra 46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?auto=format&fit=crop&w=900&q=80",
+    badge1: "6 stk.",
+    badge2: "SPAR 71 DKK",
+    badge3: "WCIPA"
+  },
+  {
+    id: "browar-3",
+    title: "BROWAR STU MOSTOW - 7,3%",
+    price: "Fra 46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80",
+    badge1: "6 stk.",
+    badge2: "SPAR 71 DKK",
+    badge3: "LAGER"
+  },
+  {
+    id: "browar-4",
+    title: "BROWAR STU MOSTOW - 7,3%",
+    price: "Fra 46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1584225064785-c62a8b43d148?auto=format&fit=crop&w=900&q=80",
+    badge1: "6 stk.",
+    badge2: "SPAR 71 DKK",
+    badge3: "WCIPA"
+  }
+];
+---
+
+<Layout>
+  <section class="products-section">
+    <div class="products-page-header">
+      <h1>ALLE VORES ØL</h1>
+      <p>
+        Red god kvalitetsøl fra landets bedste bryggerier og spar op til 40%.
+        <br />
+        Se udvalget og find dine favoritter
+      </p>
+    </div>
+
+    <div class="products-toolbar">
+      <button class="filter-btn">FILTER OG SORTÉR</button>
+    </div>
+
+    <div class="products-grid">
+      {products.map((product) => (
+        <ProductCard
+          title={product.title}
+          price={product.price}
+          oldPrice={product.oldPrice}
+          image={product.image}
+          href={`/product/${product.id}`}
+          badge1={product.badge1}
+          badge2={product.badge2}
+          badge3={product.badge3}
+        />
+      ))}
+    </div>
+  </section>
+</Layout>

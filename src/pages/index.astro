@@ -1,26 +1,59 @@
 ---
-import "../styles/global.css";
-import Header from "./components/Header.astro";
+import Layout from "../layouts/Layout.astro";
+import ProductCard from "../components/ProductCard.astro";
 ---
 
-<!DOCTYPE html>
-<html lang="da">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>A Good Case</title>
-  </head>
+<Layout>
+  <!-- HERO -->
+<section class="home-hero">
+  <div class="home-hero__content">
+    <h1>OVERSKUDS ØL<br />UDEN KOMPROMIS</h1>
+    <a href="/products" class="hero-btn">Shop nu <span>→</span></a>
+  </div>
+</section>
 
-  <body>
-    <Header />
+<section class="popular-now">
+  <h2>POPULÆRT LIGE NU</h2>
 
-    <main>
-      <section class="hero">
-        <div class="hero-content">
-          <h1>OVERSKUDS ØL<br />UDEN KOMPROMIS</h1>
-          <a href="/products" class="btn">Shop nu</a>
-        </div>
-      </section>
-    </main>
-  </body>
-</html>
+  <div class="popular-now__grid">
+    <ProductCard
+      title="Double IPA"
+      price="59,75 DKK"
+      image="https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80"
+      href="/product/aben-birch"
+    />
+
+    <ProductCard
+      title="Frau Gruber - Pils"
+      price="39,75 DKK"
+      image="https://images.unsplash.com/photo-1563379091339-03246963d29a?auto=format&fit=crop&w=900&q=80"
+      href="/product/apex-death-grip-ipa"
+    />
+  </div>
+</section>
+
+  <!-- FEATURED -->
+  <section class="featured">
+    <h2>Populære øl</h2>
+
+    <div class="featured-grid">
+      <ProductCard
+        title="Double IPA"
+        price="59,75 DKK"
+        image="https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80"
+      />
+
+      <ProductCard
+        title="West Coast IPA"
+        price="44,75 DKK"
+        image="https://images.unsplash.com/photo-1563379091339-03246963d29a?auto=format&fit=crop&w=900&q=80"
+      />
+
+      <ProductCard
+        title="Sur Ale"
+        price="49,75 DKK"
+        image="https://images.unsplash.com/photo-1571767454098-246b94fbcf70?auto=format&fit=crop&w=900&q=80"
+      />
+    </div>
+  </section>
+</Layout>

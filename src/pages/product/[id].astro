@@ -1,0 +1,158 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  return [
+    { params: { id: "aben-birch" } },
+    { params: { id: "apex-death-grip-ipa" } },
+    { params: { id: "browar-stu-mostow" } },
+    { params: { id: "brewskeeters-ghost" } },
+    { params: { id: "browar-1" } },
+    { params: { id: "browar-2" } },
+    { params: { id: "browar-3" } },
+    { params: { id: "browar-4" } }
+  ];
+}
+
+const productContent = {
+  "aben-birch": {
+    title: "ÅBEN - BIRCH - 4,8%",
+    subtitle: "SESSION IPA · 6 STK.",
+    price: "46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80",
+    description:
+      "Birch er en frisk og letdrikkelig øl med masser af karakter. Her får du en session IPA med citrus, let bitterhed og en blød afslutning. Perfekt til dem der vil have god smag uden at det bliver for tungt.",
+    badge1: "SPAR 71 DKK",
+    badge2: "GLUTENFRI"
+  },
+
+  "apex-death-grip-ipa": {
+    title: "APEX - DEATH GRIP IPA - 7,7%",
+    subtitle: "IPA · 6 STK.",
+    price: "33,16 DKK",
+    oldPrice: "45,00 DKK",
+    image: "https://images.unsplash.com/photo-1584225064785-c62a8b43d148?auto=format&fit=crop&w=900&q=80",
+    description:
+      "En intens IPA med masser af humle, frugtige noter og markant bitterhed. Death Grip IPA er til dig, der gerne vil have en kraftigere smagsoplevelse.",
+    badge1: "SPAR 71 DKK",
+    badge2: "WCIPA"
+  },
+
+  "browar-stu-mostow": {
+    title: "BROWAR STU MOSTOW - 6,9%",
+    subtitle: "NEW ENGLAND IPA · 6 STK.",
+    price: "53,16 DKK",
+    oldPrice: "65,00 DKK",
+    image: "https://images.unsplash.com/photo-1563379091339-03246963d29a?auto=format&fit=crop&w=900&q=80",
+    description:
+      "En fyldig og juicy New England IPA med tropiske noter og blød mundfølelse. Masser af aroma og en rund, lækker finish.",
+    badge1: "SPAR 71 DKK",
+    badge2: "NEW ENGLAND IPA"
+  },
+
+  "brewskeeters-ghost": {
+    title: "BREWSKEETERS X GHOST BREWING - 6,5%",
+    subtitle: "WEST COAST IPA · 6 STK.",
+    price: "46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1571767454098-246b94fbcf70?auto=format&fit=crop&w=900&q=80",
+    description:
+      "En klassisk west coast IPA med tør finish, tydelig bitterhed og frisk humleprofil. Et sikkert valg til IPA-fans.",
+    badge1: "SPAR 71 DKK",
+    badge2: "WEST COAST IPA"
+  },
+
+  "browar-1": {
+    title: "BROWAR STU MOSTOW - 7,3%",
+    subtitle: "WCIPA · 6 STK.",
+    price: "46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=900&q=80",
+    description:
+      "En kraftigere IPA med masser af dybde og humlearoma. Fyldig, bitter og balanceret.",
+    badge1: "SPAR 71 DKK",
+    badge2: "WCIPA"
+  },
+
+  "browar-2": {
+    title: "BROWAR STU MOSTOW - 7,3%",
+    subtitle: "WCIPA · 6 STK.",
+    price: "46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?auto=format&fit=crop&w=900&q=80",
+    description:
+      "Frisk, aromatisk og fyldt med karakter. En øl der passer godt til både mad og hyggelige aftener.",
+    badge1: "SPAR 71 DKK",
+    badge2: "WCIPA"
+  },
+
+  "browar-3": {
+    title: "BROWAR STU MOSTOW - 7,3%",
+    subtitle: "LAGER · 6 STK.",
+    price: "46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80",
+    description:
+      "En sprød lager med ren smag og høj drinkability. Et mere let og klassisk valg.",
+    badge1: "SPAR 71 DKK",
+    badge2: "LAGER"
+  },
+
+  "browar-4": {
+    title: "BROWAR STU MOSTOW - 7,3%",
+    subtitle: "WCIPA · 6 STK.",
+    price: "46,50 DKK",
+    oldPrice: "60,00 DKK",
+    image: "https://images.unsplash.com/photo-1584225064785-c62a8b43d148?auto=format&fit=crop&w=900&q=80",
+    description:
+      "En karakterfuld IPA med tydelige humlenoter og tør afslutning. Perfekt til dig der elsker bitterhed og friskhed.",
+    badge1: "SPAR 71 DKK",
+    badge2: "WCIPA"
+  }
+};
+
+const { id } = Astro.params;
+const product = productContent[id as keyof typeof productContent];
+---
+
+<Layout>
+  <section class="product-page">
+    <div class="product-page__grid">
+      <div class="product-page__image-box">
+        <img src={product.image} alt={product.title} class="product-page__image" />
+      </div>
+
+      <div class="product-page__info">
+        <div class="product-page__badges">
+          <span class="product-page__badge">{product.badge1}</span>
+          <span class="product-page__badge dark">{product.badge2}</span>
+        </div>
+
+        <p class="product-page__eyebrow">BEST BEFORE 30/11-2026</p>
+        <h1 class="product-page__title">{product.title}</h1>
+        <p class="product-page__subtitle">{product.subtitle}</p>
+
+        <div class="product-page__prices">
+          <span class="product-page__price">{product.price}</span>
+          <span class="product-page__old-price">{product.oldPrice}</span>
+        </div>
+
+        <div class="product-page__actions">
+          <div class="qty-box">
+            <button>-</button>
+            <span>1</span>
+            <button>+</button>
+          </div>
+
+          <button class="buy-btn">LÆG I KURV</button>
+        </div>
+
+        <div class="product-page__description">
+          <h2>Produktbeskrivelse</h2>
+          <p>{product.description}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

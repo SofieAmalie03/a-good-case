@@ -1,0 +1,29 @@
+---
+const { title, price, oldPrice, image, href, badge1, badge2, badge3 } = Astro.props;
+---
+
+<a href={href} class="product-card">
+  <div class="product-card__top">
+    <div class="product-card__badges">
+      {badge1 && <span class="product-card__badge light">{badge1}</span>}
+      {badge2 && <span class="product-card__badge dark">{badge2}</span>}
+      {badge3 && <span class="product-card__badge dark">{badge3}</span>}
+    </div>
+
+    <button class="product-card__cart-btn">LÆG I KURV</button>
+  </div>
+
+  <div class="product-card__image-wrap">
+    <img src={image} alt={title} class="product-card__image" />
+  </div>
+
+  <div class="product-card__content">
+    <p class="product-card__date">BEST BEFORE 30/11-2026</p>
+    <h2 class="product-card__title">{title}</h2>
+
+    <div class="product-card__prices">
+      <span class="product-card__price">{price}</span>
+      {oldPrice && <span class="product-card__old-price">{oldPrice}</span>}
+    </div>
+  </div>
+</a>
