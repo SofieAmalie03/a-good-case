@@ -1,158 +1,169 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-export function getStaticPaths() {
-  return [
-    { params: { id: "aben-birch" } },
-    { params: { id: "apex-death-grip-ipa" } },
-    { params: { id: "browar-stu-mostow" } },
-    { params: { id: "brewskeeters-ghost" } },
-    { params: { id: "browar-1" } },
-    { params: { id: "browar-2" } },
-    { params: { id: "browar-3" } },
-    { params: { id: "browar-4" } }
-  ];
-}
-
-const productContent = {
-  "aben-birch": {
-    title: "ÅBEN - BIRCH - 4,8%",
-    subtitle: "SESSION IPA · 6 STK.",
-    price: "46,50 DKK",
-    oldPrice: "60,00 DKK",
-    image: "https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80",
-    description:
-      "Birch er en frisk og letdrikkelig øl med masser af karakter. Her får du en session IPA med citrus, let bitterhed og en blød afslutning. Perfekt til dem der vil have god smag uden at det bliver for tungt.",
-    badge1: "SPAR 71 DKK",
-    badge2: "GLUTENFRI"
-  },
-
-  "apex-death-grip-ipa": {
-    title: "APEX - DEATH GRIP IPA - 7,7%",
-    subtitle: "IPA · 6 STK.",
-    price: "33,16 DKK",
-    oldPrice: "45,00 DKK",
-    image: "https://images.unsplash.com/photo-1584225064785-c62a8b43d148?auto=format&fit=crop&w=900&q=80",
-    description:
-      "En intens IPA med masser af humle, frugtige noter og markant bitterhed. Death Grip IPA er til dig, der gerne vil have en kraftigere smagsoplevelse.",
-    badge1: "SPAR 71 DKK",
-    badge2: "WCIPA"
-  },
-
-  "browar-stu-mostow": {
-    title: "BROWAR STU MOSTOW - 6,9%",
-    subtitle: "NEW ENGLAND IPA · 6 STK.",
-    price: "53,16 DKK",
-    oldPrice: "65,00 DKK",
-    image: "https://images.unsplash.com/photo-1563379091339-03246963d29a?auto=format&fit=crop&w=900&q=80",
-    description:
-      "En fyldig og juicy New England IPA med tropiske noter og blød mundfølelse. Masser af aroma og en rund, lækker finish.",
-    badge1: "SPAR 71 DKK",
-    badge2: "NEW ENGLAND IPA"
-  },
-
-  "brewskeeters-ghost": {
-    title: "BREWSKEETERS X GHOST BREWING - 6,5%",
-    subtitle: "WEST COAST IPA · 6 STK.",
-    price: "46,50 DKK",
-    oldPrice: "60,00 DKK",
-    image: "https://images.unsplash.com/photo-1571767454098-246b94fbcf70?auto=format&fit=crop&w=900&q=80",
-    description:
-      "En klassisk west coast IPA med tør finish, tydelig bitterhed og frisk humleprofil. Et sikkert valg til IPA-fans.",
-    badge1: "SPAR 71 DKK",
-    badge2: "WEST COAST IPA"
-  },
-
-  "browar-1": {
-    title: "BROWAR STU MOSTOW - 7,3%",
-    subtitle: "WCIPA · 6 STK.",
-    price: "46,50 DKK",
-    oldPrice: "60,00 DKK",
-    image: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=900&q=80",
-    description:
-      "En kraftigere IPA med masser af dybde og humlearoma. Fyldig, bitter og balanceret.",
-    badge1: "SPAR 71 DKK",
-    badge2: "WCIPA"
-  },
-
-  "browar-2": {
-    title: "BROWAR STU MOSTOW - 7,3%",
-    subtitle: "WCIPA · 6 STK.",
-    price: "46,50 DKK",
-    oldPrice: "60,00 DKK",
-    image: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?auto=format&fit=crop&w=900&q=80",
-    description:
-      "Frisk, aromatisk og fyldt med karakter. En øl der passer godt til både mad og hyggelige aftener.",
-    badge1: "SPAR 71 DKK",
-    badge2: "WCIPA"
-  },
-
-  "browar-3": {
-    title: "BROWAR STU MOSTOW - 7,3%",
-    subtitle: "LAGER · 6 STK.",
-    price: "46,50 DKK",
-    oldPrice: "60,00 DKK",
-    image: "https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80",
-    description:
-      "En sprød lager med ren smag og høj drinkability. Et mere let og klassisk valg.",
-    badge1: "SPAR 71 DKK",
-    badge2: "LAGER"
-  },
-
-  "browar-4": {
-    title: "BROWAR STU MOSTOW - 7,3%",
-    subtitle: "WCIPA · 6 STK.",
-    price: "46,50 DKK",
-    oldPrice: "60,00 DKK",
-    image: "https://images.unsplash.com/photo-1584225064785-c62a8b43d148?auto=format&fit=crop&w=900&q=80",
-    description:
-      "En karakterfuld IPA med tydelige humlenoter og tør afslutning. Perfekt til dig der elsker bitterhed og friskhed.",
-    badge1: "SPAR 71 DKK",
-    badge2: "WCIPA"
-  }
+type Product = {
+  id: number;
+  name?: string;
+  price?: number;
+  old_price?: number;
+  image_url?: string;
+  hover_image_url?: string;
+  best_before?: string;
+  style?: string;
+  type?: string;
+  description?: string;
+  quantity_default?: number;
 };
 
-const { id } = Astro.params;
-const product = productContent[id as keyof typeof productContent];
+const cleanText = (value: unknown) =>
+  String(value ?? "")
+    .replace(/\n/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const formatPrice = (value: unknown) => {
+  const num = Number(value);
+  if (Number.isNaN(num)) return "";
+  return `${num.toFixed(2).replace(".", ",")} DKK`;
+};
+
+export async function getStaticPaths() {
+  const endpoint =
+    "https://dkcobhfkefcqzibaskdu.supabase.co/rest/v1/produkter?select=*";
+
+  const key =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrY29iaGZrZWZjcXppYmFza2R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MDM2MjksImV4cCI6MjA5MTk3OTYyOX0.OpaFaejAvrmWvAEZjmJYbM8g7b6GUC_6SEZgiDfcqNk";
+
+  const response = await fetch(endpoint, {
+    headers: {
+      apikey: key,
+      Authorization: `Bearer ${key}`,
+    },
+  });
+
+  const data: Product[] = await response.json();
+
+  return data.map((product) => ({
+    params: { id: product.id.toString() },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props as { product: Product };
+
+const relatedCategories = [
+  { title: "VORES MØRKE", image: "/img/dark-beer.png" },
+  { title: "LAGER/PILSER", image: "/img/lager-beer.png" },
+  { title: "VORES LYSE", image: "/img/light-beer.png" },
+  { title: "VORES SYRLIGE", image: "/img/sour-beer.png" },
+];
 ---
 
 <Layout>
-  <section class="product-page">
-    <div class="product-page__grid">
-      <div class="product-page__image-box">
-        <img src={product.image} alt={product.title} class="product-page__image" />
+  <section class="detail-page">
+    <div class="detail-page__top">
+      <div class="detail-page__image-col">
+        <div class="detail-product-image">
+          <img
+            src={cleanText(product.image_url)}
+            alt={cleanText(product.name)}
+          />
+        </div>
       </div>
 
-      <div class="product-page__info">
-        <div class="product-page__badges">
-          <span class="product-page__badge">{product.badge1}</span>
-          <span class="product-page__badge dark">{product.badge2}</span>
-        </div>
+      <div class="detail-page__spec-col">
+        <div class="detail-specs">
+          <div class="detail-specs__head">INFORMATIONS KORT</div>
 
-        <p class="product-page__eyebrow">BEST BEFORE 30/11-2026</p>
-        <h1 class="product-page__title">{product.title}</h1>
-        <p class="product-page__subtitle">{product.subtitle}</p>
-
-        <div class="product-page__prices">
-          <span class="product-page__price">{product.price}</span>
-          <span class="product-page__old-price">{product.oldPrice}</span>
-        </div>
-
-        <div class="product-page__actions">
-          <div class="qty-box">
-            <button>-</button>
-            <span>1</span>
-            <button>+</button>
+          <div class="detail-specs__row">
+            <span>ABV</span>
+            <span>7,5%</span>
           </div>
 
-          <button class="buy-btn">LÆG I KURV</button>
-        </div>
+          <div class="detail-specs__row">
+            <span>IBU</span>
+            <span>60</span>
+          </div>
 
-        <div class="product-page__description">
-          <h2>Produktbeskrivelse</h2>
-          <p>{product.description}</p>
+          <div class="detail-specs__row">
+            <span>STYLE</span>
+            <span>{cleanText(product.style || product.type || "ØL")}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-page__content-col">
+        <p class="detail-main__eyebrow">
+          {cleanText(product.style || product.type || "SPECIALØL")}
+        </p>
+
+        <h1 class="detail-main__title">{cleanText(product.name)}</h1>
+
+        <div class="detail-main__underline"></div>
+
+        <div class="detail-buy-box">
+          <div class="detail-buy-box__row">
+            <strong>1 stk.</strong>
+            <span>{formatPrice(product.price)}</span>
+            {product.old_price && (
+              <span class="detail-buy-box__old">Vejl. pris {formatPrice(product.old_price)}</span>
+            )}
+          </div>
+
+          <div class="detail-buy-box__row detail-buy-box__row--active">
+            <strong>6 stk.</strong>
+            <span>35,00 DKK stk</span>
+            <span>210,00 DKK TOTALT</span>
+          </div>
+
+          <div class="detail-qty">
+            <button type="button">−</button>
+            <span>1</span>
+            <button type="button">+</button>
+          </div>
+
+          <button class="detail-buy-btn">LÆG I KURV</button>
+
+          <div class="detail-payments">
+            <span>💳</span>
+            <span>🪪</span>
+            <span>💳</span>
+            <span>🟠</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="detail-description">
+      <p><strong>Untappd rating: 3.7</strong></p>
+      <p>
+        {cleanText(
+          product.description ||
+            "Death Grip IPA fra Apex er en 7,5% West Coast IPA, der holder fast i din opmærksomhed med sin dybde og fylde."
+        )}
+      </p>
+      <p>
+        Denne IPA har en maltbase med Pale Ale-, Munich- og lys karamellmalt, som tilføjer både krop og et strejf af sødme. Columbus og Simcoe-humlerne i brygningen giver en solid bitterhed, mens den kraftige tørhumling med Strata og Citra tilfører friske noter af tropiske frugter og citrus.
+      </p>
+      <p>
+        En IPA, der balancerer mellem sødme og bitterhed, med en fyldig, humledrevet profil, som leverer en intens smagsoplevelse fra første tår til sidste.
+      </p>
+    </div>
+
+    <section class="detail-related">
+      <p class="detail-related__eyebrow">VÆLG DIN KATEGORI</p>
+      <h2>UDFORSK ANDRE ØL</h2>
+
+      <div class="detail-related__grid">
+        {relatedCategories.map((item) => (
+          <div class="detail-related__card">
+            <img src={item.image} alt={item.title} />
+            <a href="/productlist">{item.title}</a>
+          </div>
+        ))}
+      </div>
+
+      <div class="detail-related__nav">‹ &nbsp; 1/8 &nbsp; ›</div>
+    </section>
   </section>
 </Layout>

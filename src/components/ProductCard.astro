@@ -1,25 +1,48 @@
 ---
-const { title, price, oldPrice, image, href, badge1, badge2, badge3 } = Astro.props;
+const {
+  title,
+  price,
+  oldPrice,
+  image,
+  hoverImage,
+  href,
+  badge1 = "6 stk.",
+  badge2 = "SPAR 71 DKK",
+  badge3 = "",
+  bestBefore = "30/11-2026"
+} = Astro.props;
 ---
 
 <a href={href} class="product-card">
   <div class="product-card__top">
-    <div class="product-card__badges">
-      {badge1 && <span class="product-card__badge light">{badge1}</span>}
-      {badge2 && <span class="product-card__badge dark">{badge2}</span>}
-      {badge3 && <span class="product-card__badge dark">{badge3}</span>}
+    <div class="product-card__actions">
+      <span class="product-card__qty">{badge1}</span>
+      <span class="product-card__cart">LÆG I KURV</span>
     </div>
 
-    <button class="product-card__cart-btn">LÆG I KURV</button>
+    <div class="product-card__badges">
+      <span class="product-card__badge">{badge2}</span>
+      {badge3 && <span class="product-card__badge">{badge3}</span>}
+    </div>
+
+    <div class="product-card__image-wrap">
+      <img
+        src={image}
+        alt={title}
+        class="product-card__image product-card__image--default"
+      />
+
+      <img
+        src={hoverImage || image}
+        alt={title}
+        class="product-card__image product-card__image--hover"
+      />
+    </div>
   </div>
 
-  <div class="product-card__image-wrap">
-    <img src={image} alt={title} class="product-card__image" />
-  </div>
-
-  <div class="product-card__content">
-    <p class="product-card__date">BEST BEFORE 30/11-2026</p>
-    <h2 class="product-card__title">{title}</h2>
+  <div class="product-card__info">
+    <p class="product-card__date">BEST BEFORE {bestBefore}</p>
+    <h3>{title}</h3>
 
     <div class="product-card__prices">
       <span class="product-card__price">{price}</span>

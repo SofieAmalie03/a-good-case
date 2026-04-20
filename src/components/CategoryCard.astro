@@ -1,0 +1,7 @@
+---
+const { title, href = "/productlist" } = Astro.props;
+---
+
+<a href={href} class="category-card">
+  <span>{title}</span>
+</a>

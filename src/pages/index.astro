@@ -1,59 +1,148 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ProductCard from "../components/ProductCard.astro";
+import FeatureCard from "../components/FeatureCard.astro";
+import NewsletterSection from "../components/NewsletterSection.astro";
+
+const endpoint = "https://dkcobhfkefcqzibaskdu.supabase.co/rest/v1/produkter?select=*";
+const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrY29iaGZrZWZjcXppYmFza2R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MDM2MjksImV4cCI6MjA5MTk3OTYyOX0.OpaFaejAvrmWvAEZjmJYbM8g7b6GUC_6SEZgiDfcqNk";
+
+const res = await fetch(endpoint, {
+  headers: {
+    apikey: key,
+    Authorization: `Bearer ${key}`,
+  },
+});
+
+const products = await res.json();
+
+type Product = {
+  id: number;
+  name?: string;
+  price?: number;
+  old_price?: number;
+  discount_text?: string;
+  quantity_default?: number;
+  best_before?: string;
+  image_url?: string;
+  hover_image_url?: string;
+  type?: string;
+  style?: string;
+};
+
+const cleanText = (value: unknown) =>
+  String(value ?? "")
+    .replace(/\n/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const formatPrice = (value: unknown) => {
+  const num = Number(value);
+  if (Number.isNaN(num)) return "";
+  return `${num.toFixed(2).replace(".", ",")} DKK`;
+};
+
+const formatOldPrice = (value: unknown) => {
+  const num = Number(value);
+  if (Number.isNaN(num)) return "";
+  return `${num.toFixed(2).replace(".", ",")} DKK`;
+};
+
+const formatDate = (value: unknown) => {
+  const raw = String(value ?? "").trim();
+  if (!raw) return "30/11-2026";
+  const [year, month, day] = raw.split("-");
+  if (!year || !month || !day) return raw;
+  return `${day}/${month}-${year}`;
+};
+
+const popularProducts = products.slice(0, 2);
+const newsProducts = products.slice(0, 4);
 ---
 
 <Layout>
-  <!-- HERO -->
-<section class="home-hero">
-  <div class="home-hero__content">
-    <h1>OVERSKUDS ØL<br />UDEN KOMPROMIS</h1>
-    <a href="/products" class="hero-btn">Shop nu <span>→</span></a>
-  </div>
-</section>
+  <section class="home-hero">
+    <div class="home-hero__content">
+      <h1>OVERSKUDS ØL<br />UDEN KOMPROMIS</h1>
+      <a href="/productlist" class="hero-btn">Shop nu</a>
+    </div>
+  </section>
 
-<section class="popular-now">
-  <h2>POPULÆRT LIGE NU</h2>
+  <section class="popular-section">
+    <div class="popular-section__inner">
+      <h2>POPULÆRT LIGE NU</h2>
 
-  <div class="popular-now__grid">
-    <ProductCard
-      title="Double IPA"
-      price="59,75 DKK"
-      image="https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80"
-      href="/product/aben-birch"
-    />
+      <div class="popular-section__grid">
+        {popularProducts.map((product: Product) => (
+          <ProductCard
+            href={`/details/${product.id}`}
+            title={cleanText(product.name)}
+            price={formatPrice(product.price)}
+            oldPrice={formatOldPrice(product.old_price)}
+            image={cleanText(product.image_url)}
+            hoverImage={cleanText(product.hover_image_url || product.image_url)}
+            badge1={`${product.quantity_default ?? 6} stk.`}
+            badge2={cleanText(product.discount_text || "SPAR 71 DKK")}
+            badge3={cleanText(product.style || product.type)}
+            bestBefore={formatDate(product.best_before)}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
 
-    <ProductCard
-      title="Frau Gruber - Pils"
-      price="39,75 DKK"
-      image="https://images.unsplash.com/photo-1563379091339-03246963d29a?auto=format&fit=crop&w=900&q=80"
-      href="/product/apex-death-grip-ipa"
-    />
-  </div>
-</section>
+  <section class="meaning-section">
+    <div class="meaning-section__intro">
+      <h2>MINDRE SPILD – MERE MENING</h2>
+      <p>
+        Bliv en del af løsningen med bedre øl til skarpere priser.
+        <br />
+        Hos os finder du håndplukkede, overskydende kvalitetsøl fra landets bedste bryggerier.
+      </p>
+    </div>
 
-  <!-- FEATURED -->
-  <section class="featured">
-    <h2>Populære øl</h2>
-
-    <div class="featured-grid">
-      <ProductCard
-        title="Double IPA"
-        price="59,75 DKK"
-        image="https://images.unsplash.com/photo-1516458464372-ee7eae24b460?auto=format&fit=crop&w=900&q=80"
+    <div class="meaning-section__grid">
+      <FeatureCard
+        icon="🍺"
+        title="Mindre spild"
+        text="Vi håndplukker overskudsøl fra landets bedste bryggerier"
       />
-
-      <ProductCard
-        title="West Coast IPA"
-        price="44,75 DKK"
-        image="https://images.unsplash.com/photo-1563379091339-03246963d29a?auto=format&fit=crop&w=900&q=80"
+      <FeatureCard
+        icon="💰"
+        title="Gode besparelser"
+        text="Gør en god handel, uden at gå på kompromis med kvaliteten"
       />
-
-      <ProductCard
-        title="Sur Ale"
-        price="49,75 DKK"
-        image="https://images.unsplash.com/photo-1571767454098-246b94fbcf70?auto=format&fit=crop&w=900&q=80"
+      <FeatureCard
+        icon="🤍"
+        title="Socialt ansvar"
+        text="Alle ordrer pakkes af unge med autisme, som løfter en kæmpe indsats"
       />
     </div>
   </section>
+
+  <section class="news-section">
+    <div class="news-section__intro">
+      <p>UDPLUK AF</p>
+      <h2>NYHEDER</h2>
+    </div>
+
+    <div class="news-section__grid">
+      {newsProducts.map((product: Product) => (
+        <ProductCard
+          href={`/details/${product.id}`}
+          title={cleanText(product.name)}
+          price={formatPrice(product.price)}
+          oldPrice={formatOldPrice(product.old_price)}
+          image={cleanText(product.image_url)}
+          hoverImage={cleanText(product.hover_image_url || product.image_url)}
+          badge1={`${product.quantity_default ?? 6} stk.`}
+          badge2={cleanText(product.discount_text || "SPAR 71 DKK")}
+          badge3={cleanText(product.style || product.type)}
+          bestBefore={formatDate(product.best_before)}
+        />
+      ))}
+    </div>
+  </section>
+
+  <NewsletterSection />
 </Layout>
