@@ -92,33 +92,47 @@ const newsProducts = products.slice(0, 4);
   </section>
 
   <section class="meaning-section">
-    <div class="meaning-section__intro">
-      <h2>MINDRE SPILD – MERE MENING</h2>
-      <p>
-        Bliv en del af løsningen med bedre øl til skarpere priser.
-        <br />
-        Hos os finder du håndplukkede, overskydende kvalitetsøl fra landets bedste bryggerier.
-      </p>
-    </div>
+  <div class="meaning-section__intro">
+    <h2>MINDRE SPILD – MERE MENING</h2>
+    <p>
+      Bliv en del af løsningen med bedre øl til skarpere priser.
+      <br />
+      Hos os finder du håndplukkede, overskydende kvalitetsøl fra landets bedste bryggerier.
+    </p>
+  </div>
 
-    <div class="meaning-section__grid">
-      <FeatureCard
-        icon="🍺"
-        title="Mindre spild"
-        text="Vi håndplukker overskudsøl fra landets bedste bryggerier"
+  <div class="meaning-section__grid">
+    <article class="feature-card">
+      <img
+        src="/mindrespild.png"
+        alt="Illustration af mindre spild"
+        class="feature-card__image"
       />
-      <FeatureCard
-        icon="💰"
-        title="Gode besparelser"
-        text="Gør en god handel, uden at gå på kompromis med kvaliteten"
+      <h3>Mindre spild</h3>
+      <p>Vi håndplukker overskudsøl fra landets bedste bryggerier</p>
+    </article>
+
+    <article class="feature-card">
+      <img
+        src="public/godebesparelser.png"
+        alt="Illustration af gode besparelser"
+        class="feature-card__image"
       />
-      <FeatureCard
-        icon="🤍"
-        title="Socialt ansvar"
-        text="Alle ordrer pakkes af unge med autisme, som løfter en kæmpe indsats"
+      <h3>Gode besparelser</h3>
+      <p>Gør en god handel, uden at gå på kompromis med kvaliteten</p>
+    </article>
+
+    <article class="feature-card">
+      <img
+        src="/socialtansvar.png"
+        alt="Illustration af socialt ansvar"
+        class="feature-card__image"
       />
-    </div>
-  </section>
+      <h3>Socialt ansvar</h3>
+      <p>Alle ordrer pakkes af unge med autisme, som løfter en kæmpe indsats</p>
+    </article>
+  </div>
+</section>
 
   <section class="news-section">
     <div class="news-section__intro">
@@ -143,6 +157,28 @@ const newsProducts = products.slice(0, 4);
       ))}
     </div>
   </section>
-
   <NewsletterSection />
+    <section class="promo-grid-section">
+  <div class="promo-grid">
+    <a href="/gaver" class="promo-card promo-card--large">
+      <img src="/sendengave.png" alt="Send en gave" class="promo-card__image" />
+    </a>
+
+    <a href="/abonnement" class="promo-card promo-card--large">
+      <img src="/abonnementpng.png" alt="Abonnement" class="promo-card__image" />
+    </a>
+
+    <a href="/erhverv" class="promo-card promo-card--small">
+      <img src="/erhverv.png" alt="Erhverv" class="promo-card__image" />
+    </a>
+
+    <a href="/partnerskaber" class="promo-card promo-card--small">
+      <img src="/partnerskaber.png" alt="Partnerskaber" class="promo-card__image" />
+    </a>
+
+    <a href="/oelsmagning" class="promo-card promo-card--small">
+      <img src="/ølsmagning.png" alt="Ølsmagning" class="promo-card__image" />
+    </a>
+  </div>
+</section>
 </Layout>
