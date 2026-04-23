@@ -63,6 +63,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 .site-header__menu {
@@ -74,9 +75,14 @@ input {
 }
 
 .site-header__logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 22px;
+  letter-spacing: 0.15em;
+  text-align: center;
   text-decoration: none;
-  font-size: 15px;
-  letter-spacing: 0.08em;
 }
 
 .site-header__icons {
@@ -116,6 +122,9 @@ input {
   font-size: 30px;
   font-weight: 600;
 }
+.hero-btn:hover {
+  background: rgba(20, 59, 53, 0.6); /* gennemsigtig grøn */
+}
 
 .filter-btn {
   padding: 12px 18px;
@@ -131,26 +140,31 @@ input {
 ========================= */
 
 .home-hero {
-  min-height: 600px;
+  min-height: 620px;
   display: flex;
   align-items: center;
-  padding: 80px 40px;
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    url("/hero.png") center/cover no-repeat;
+  padding: 0 48px;
+  background: url("/hero.png") center/cover no-repeat;
 }
 
 .home-hero__content {
-  max-width: 380px;
-  margin-top: 24px;
+  max-width: 520px;
+  margin-top: 250px;
 }
 
-.home-hero__content h1 {
-  margin: 0 0 24px;
-  color: var(--white);
-  font-size: clamp(2rem, 6vw, 4rem);
-  line-height: 0.95;
+.home-hero__title {
+  margin: 0 0 28px;
+  color: #010701;
+  font-size: clamp(2.2rem, 5vw, 5.2rem);
+  line-height: 0.9;
   font-weight: 400;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.home-hero__title span {
+  display: block;
+  white-space: nowrap;
 }
 
 /* =========================
@@ -164,7 +178,7 @@ input {
 .popular-section__inner {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 34px 24px 52px;
+  padding: 24px 24px 24px;
 }
 
 .popular-section h2 {
@@ -1084,7 +1098,7 @@ input {
   }
 
   .site-header__logo {
-    font-size: 13px;
+    font-size: 25px;
   }
 
   .home-hero,
@@ -1458,4 +1472,42 @@ input {
     border-radius: 6px;
     font-size: 16px;
   }
+}
+
+/* =========================
+   Click til kurv mm.
+========================= */
+.detail-buy-option {
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.detail-buy-option.is-active {
+  border: 1px solid #d8d0c5;
+  background: #fff;
+}
+
+.detail-buy-option strong {
+  font-weight: 400;
+  transition: 0.2s ease;
+}
+
+.detail-buy-option.is-active strong {
+  font-weight: 700;
+}
+
+.detail-qty__btn {
+  cursor: pointer;
+}
+
+.detail-buy-btn {
+  transition: 0.2s ease;
+}
+
+.detail-buy-btn:hover {
+  opacity: 0.9;
 }

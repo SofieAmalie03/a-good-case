@@ -66,9 +66,15 @@ const relatedCategories = [
   { title: "VORES LYSE", image: "/lyse.png" },
   { title: "VORES SYRLIGE", image: "/syrlige.png" },
 ];
+
 const styleLabel = cleanText(product.style || product.type || "SPECIALØL");
 const abvValue = product.abv ?? product.ABV ?? 7.5;
 const ibuValue = product.ibu ?? 60;
+
+const singlePrice = Number(product.price ?? 0);
+const packSize = 6;
+const packUnitPrice = 35;
+const packTotalPrice = packSize * packUnitPrice;
 ---
 
 <Layout>
@@ -109,30 +115,48 @@ const ibuValue = product.ibu ?? 60;
 
         <div class="detail-main__underline"></div>
 
-        <div class="detail-buy-box">
-          <div class="detail-buy-box__row">
-            <strong>1 stk.</strong>
-            <span>{formatPrice(product.price)}</span>
-            {product.old_price && (
-              <span class="detail-buy-box__old">
-                Vejl. pris {formatPrice(product.old_price)}
-              </span>
-            )}
-          </div>
+        <div
+          class="detail-buy-box"
+          data-product-id={product.id}
+          data-product-name={cleanText(product.name)}
+          data-product-image={cleanText(product.image_url)}
+          data-single-price={singlePrice}
+          data-pack-size={packSize}
+          data-pack-unit-price={packUnitPrice}
+        >
+<button
+  type="button"
+  class="detail-buy-box__row detail-buy-option"
+  data-pack="1"
+>
+  <strong>1 stk.</strong>
+  <span>{formatPrice(product.price)}</span>
+  {product.old_price && (
+    <span class="detail-buy-box__old">
+      Vejl. pris {formatPrice(product.old_price)}
+    </span>
+  )}
+</button>
 
-          <div class="detail-buy-box__row detail-buy-box__row--active">
-            <strong>6 stk.</strong>
-            <span>35,00 DKK stk</span>
-            <span>210,00 DKK TOTALT</span>
-          </div>
+<button
+  type="button"
+  class="detail-buy-box__row detail-buy-option is-active"
+  data-pack={packSize}
+>
+  <strong>{packSize} stk.</strong>
+  <span>{packUnitPrice.toFixed(2).replace(".", ",")} DKK stk</span>
+  <span>{packTotalPrice.toFixed(2).replace(".", ",")} DKK TOTALT</span>
+</button>
 
-          <div class="detail-qty">
-            <button type="button">−</button>
-            <span>1</span>
-            <button type="button">+</button>
-          </div>
+<div class="detail-qty">
+  <button type="button" class="detail-qty__btn" data-action="minus">−</button>
+  <span class="detail-qty__value" data-qty>1</span>
+  <button type="button" class="detail-qty__btn" data-action="plus">+</button>
+</div>
 
-          <button class="detail-buy-btn">LÆG I KURV</button>
+          <button class="detail-buy-btn" type="button" data-add-to-cart>
+            LÆG I KURV
+          </button>
 
           <div class="detail-payments">
             <span>💳</span>
@@ -183,3 +207,92 @@ const ibuValue = product.ibu ?? 60;
     </section>
   </section>
 </Layout>
+
+<script>
+  const buyBox = document.querySelector(".detail-buy-box");
+  if (buyBox) {
+    const optionButtons = buyBox.querySelectorAll(".detail-buy-option");
+    const qtyValue = buyBox.querySelector("[data-qty]");
+    const minusBtn = buyBox.querySelector('[data-action="minus"]');
+    const plusBtn = buyBox.querySelector('[data-action="plus"]');
+    const addToCartBtn = buyBox.querySelector("[data-add-to-cart]");
+
+    let selectedPack = 6;
+    let quantity = 1;
+
+    const updateQtyUI = () => {
+      if (qtyValue) qtyValue.textContent = String(quantity);
+    };
+
+    optionButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        optionButtons.forEach((btn) => btn.classList.remove("is-active"));
+        button.classList.add("is-active");
+        selectedPack = Number(button.getAttribute("data-pack")) || 1;
+      });
+    });
+
+    minusBtn?.addEventListener("click", () => {
+      if (quantity > 1) {
+        quantity -= 1;
+        updateQtyUI();
+      }
+    });
+
+    plusBtn?.addEventListener("click", () => {
+      quantity += 1;
+      updateQtyUI();
+    });
+
+    addToCartBtn?.addEventListener("click", () => {
+      const productId = Number(buyBox.getAttribute("data-product-id"));
+      const productName = buyBox.getAttribute("data-product-name") || "";
+      const productImage = buyBox.getAttribute("data-product-image") || "";
+      const singlePrice = Number(buyBox.getAttribute("data-single-price")) || 0;
+      const packUnitPrice =
+        Number(buyBox.getAttribute("data-pack-unit-price")) || singlePrice;
+
+      const unitPrice = selectedPack === 1 ? singlePrice : packUnitPrice;
+      const totalUnits = selectedPack * quantity;
+
+      const cartItem = {
+        id: productId,
+        name: productName,
+        image: productImage,
+        packSize: selectedPack,
+        quantity,
+        totalUnits,
+        unitPrice,
+      };
+
+      const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const existingIndex = existingCart.findIndex(
+        (item: { id: number; packSize: number }) => item.id === cartItem.id && item.packSize === cartItem.packSize
+      );
+
+      if (existingIndex > -1) {
+        existingCart[existingIndex].quantity += cartItem.quantity;
+        existingCart[existingIndex].totalUnits += cartItem.totalUnits;
+      } else {
+        existingCart.push(cartItem);
+      }
+
+      localStorage.setItem("cart", JSON.stringify(existingCart));
+
+      const cartCount = existingCart.reduce(
+        (sum: number, item: { totalUnits?: number }) => sum + Number(item.totalUnits || 0),
+        0
+      );
+
+      localStorage.setItem("cartCount", String(cartCount));
+      window.dispatchEvent(new CustomEvent("cart-updated", { detail: { cartCount } }));
+
+      addToCartBtn.textContent = "LAGT I KURV";
+      setTimeout(() => {
+        addToCartBtn.textContent = "LÆG I KURV";
+      }, 1200);
+    });
+
+    updateQtyUI();
+  }
+</script>

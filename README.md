@@ -1,43 +1,91 @@
-# Astro Starter Kit: Minimal
+# 🍺 A Good Case – Webprojekt (Astro)
 
-```sh
-npm create astro@latest -- --template minimal
-```
+## 📌 Om projektet
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Dette projekt er udviklet som en del af Tema 9 – UI & UX II på Multimediedesign.
 
-## 🚀 Project Structure
+Formålet har været at redesigne og udvikle en dynamisk webløsning for virksomheden A Good Case, med fokus på både salg af øl og formidling af deres sociale ansvar.
 
-Inside of your Astro project, you'll see the following folders and files:
+Projektet er udviklet med fokus på brugervenlighed, visuel identitet og frontend-udvikling i Astro.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+---
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🧠 Problemstilling
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Hvordan kan A Good Case, via et redesign af deres webløsning, der primært har til formål at sælge øl, samtidig informere om deres sociale ansvar og sikre en brugervenlig løsning, der følger best practices inden for webdesign?
 
-Any static assets, like images, can be placed in the `public/` directory.
+---
 
-## 🧞 Commands
+## 🏢 Om A Good Case
 
-All commands are run from the root of the project, from a terminal:
+A Good Case sælger specialøl til danske privat- og erhvervskunder.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+De opkøber restpartier af kvalitetsøl (fx med kort dato eller kosmetiske fejl) og sælger dem til lavere priser for at reducere mad- og ølspild.
 
-## 👀 Want to learn more?
+Virksomheden arbejder også med socialt ansvar ved at tilbyde praktikpladser til personer med udfordringer.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+---
+
+## 🛠️ Teknologier
+
+Projektet er udviklet med:
+
+- Astro
+- HTML
+- CSS
+- JavaScript
+- Git & GitHub
+
+---
+
+## 📁 Projektstruktur
+
+---
+
+## ✨ Funktionalitet
+
+- Forside med hero og call-to-action
+- Produktoversigt (dynamisk)
+- Produktsider med dynamic routes
+- Genbrugelige komponenter (fx ProductCard)
+- Newsletter sektion
+- Promo grid (gaver, abonnement, erhverv osv.)
+- Footer med navigation og info
+- Responsivt design
+
+---
+
+## 📱 Responsivt design
+
+Sitet er udviklet til:
+
+- Desktop
+- Tablet
+- Mobil
+
+Ved brug af:
+
+- CSS Grid
+- Flexbox
+- Media queries
+
+---
+
+## ⚙️ Installation & kørsel
+
+---
+
+## 🎯 Opgavekrav (kort)
+
+- Dynamisk løsning i Astro
+- Brug af components (props + slots)
+- Dynamic routes
+- Responsivt design
+- Hosting på Netlify
+- Dokumentationsrapport
+
+---
+
+## 👥 Gruppe
+
+- Fiona Heyns, Isabel Maibom, Benjamin Aamann, Sofie Amalie
