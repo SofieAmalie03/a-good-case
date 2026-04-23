@@ -13,6 +13,9 @@ type Product = {
   type?: string;
   description?: string;
   quantity_default?: number;
+  abv?: number;
+  ABV?: number;
+  ibu?: number;
 };
 
 const cleanText = (value: unknown) =>
@@ -25,6 +28,12 @@ const formatPrice = (value: unknown) => {
   const num = Number(value);
   if (Number.isNaN(num)) return "";
   return `${num.toFixed(2).replace(".", ",")} DKK`;
+};
+
+const formatPercent = (value: unknown) => {
+  const num = Number(value);
+  if (Number.isNaN(num)) return "";
+  return `${num.toFixed(1).replace(".", ",")}%`;
 };
 
 export async function getStaticPaths() {
@@ -52,11 +61,14 @@ export async function getStaticPaths() {
 const { product } = Astro.props as { product: Product };
 
 const relatedCategories = [
-  { title: "VORES MØRKE", image: "/img/dark-beer.png" },
-  { title: "LAGER/PILSER", image: "/img/lager-beer.png" },
-  { title: "VORES LYSE", image: "/img/light-beer.png" },
-  { title: "VORES SYRLIGE", image: "/img/sour-beer.png" },
+  { title: "VORES MØRKE", image: "/moerke.png" },
+  { title: "LAGER/PILSNER", image: "/lager-pilsner.png" },
+  { title: "VORES LYSE", image: "/lyse.png" },
+  { title: "VORES SYRLIGE", image: "/syrlige.png" },
 ];
+const styleLabel = cleanText(product.style || product.type || "SPECIALØL");
+const abvValue = product.abv ?? product.ABV ?? 7.5;
+const ibuValue = product.ibu ?? 60;
 ---
 
 <Layout>
@@ -69,33 +81,29 @@ const relatedCategories = [
             alt={cleanText(product.name)}
           />
         </div>
-      </div>
 
-      <div class="detail-page__spec-col">
         <div class="detail-specs">
           <div class="detail-specs__head">INFORMATIONS KORT</div>
 
           <div class="detail-specs__row">
             <span>ABV</span>
-            <span>7,5%</span>
+            <span>{formatPercent(abvValue)}</span>
           </div>
 
           <div class="detail-specs__row">
             <span>IBU</span>
-            <span>60</span>
+            <span>{ibuValue}</span>
           </div>
 
           <div class="detail-specs__row">
             <span>STYLE</span>
-            <span>{cleanText(product.style || product.type || "ØL")}</span>
+            <span>{styleLabel}</span>
           </div>
         </div>
       </div>
 
       <div class="detail-page__content-col">
-        <p class="detail-main__eyebrow">
-          {cleanText(product.style || product.type || "SPECIALØL")}
-        </p>
+        <p class="detail-main__eyebrow">{styleLabel}</p>
 
         <h1 class="detail-main__title">{cleanText(product.name)}</h1>
 
@@ -106,7 +114,9 @@ const relatedCategories = [
             <strong>1 stk.</strong>
             <span>{formatPrice(product.price)}</span>
             {product.old_price && (
-              <span class="detail-buy-box__old">Vejl. pris {formatPrice(product.old_price)}</span>
+              <span class="detail-buy-box__old">
+                Vejl. pris {formatPrice(product.old_price)}
+              </span>
             )}
           </div>
 
@@ -143,10 +153,16 @@ const relatedCategories = [
         )}
       </p>
       <p>
-        Denne IPA har en maltbase med Pale Ale-, Munich- og lys karamellmalt, som tilføjer både krop og et strejf af sødme. Columbus og Simcoe-humlerne i brygningen giver en solid bitterhed, mens den kraftige tørhumling med Strata og Citra tilfører friske noter af tropiske frugter og citrus.
+        Denne IPA har en maltbase med Pale Ale-, Munich- og lys karamellmalt,
+        som tilføjer både krop og et strejf af sødme. Columbus og
+        Simcoe-humlerne i brygningen giver en solid bitterhed, mens den kraftige
+        tørhumling med Strata og Citra tilfører friske noter af tropiske
+        frugter og citrus.
       </p>
       <p>
-        En IPA, der balancerer mellem sødme og bitterhed, med en fyldig, humledrevet profil, som leverer en intens smagsoplevelse fra første tår til sidste.
+        En IPA, der balancerer mellem sødme og bitterhed, med en fyldig,
+        humledrevet profil, som leverer en intens smagsoplevelse fra første tår
+        til sidste.
       </p>
     </div>
 
